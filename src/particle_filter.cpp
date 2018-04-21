@@ -142,6 +142,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	//   3.33
 	//   http://planning.cs.uiuc.edu/node99.html
 
+
 	const double sig_x = std_landmark[0];
 	const double sig_y = std_landmark[1];
 	// calculate normalization term
@@ -226,6 +227,8 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 		weights[i] = normWeight;
 	}
 
+
+
 }
 
 void ParticleFilter::resample() {
@@ -234,14 +237,14 @@ void ParticleFilter::resample() {
 	// http://en.cppreference.com/w/cpp/numeric/random/discrete_distribution
 
 	default_random_engine gen;
-	std::discrete_distribution<> prob_list(weights.begin(), weights.end());
+	std::discrete_distribution<> prob(weights.begin(), weights.end());
 
 	std::vector<Particle> resampledParticles;
 	const int particleSize = particles.size();
 
 	for( int i = 0; i < particleSize; ++i)
 	{
-		resampledParticles.push_back(particles[prob_list(gen)]);
+		resampledParticles.push_back(particles[prob(gen)]);
 	}
 
 	particles = resampledParticles;
